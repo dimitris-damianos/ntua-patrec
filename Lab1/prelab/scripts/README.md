@@ -8,6 +8,6 @@ This folder contains all scripts used for pre-lab1:
 
 -> utils.py:    useful function (MFCCs/MFCSc extraction,plotting,data modification etc)
 
-Path for digits .wav files: '../pr_lab1_2020-21_data/digits', if scripts are executed from /scipts folder.
+Path for digits .wav files: '../pr_lab1_2020-21_data/digits', if scripts are executed from ./scipts folder.
 
 For any questions, contact me: d.damianos556@gmail.com
