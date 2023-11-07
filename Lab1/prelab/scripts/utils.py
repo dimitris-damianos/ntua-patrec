@@ -11,6 +11,7 @@ def data_parser(directory):
     '''
     Return waves, ids and digits list, given .wav files location.
     '''
+    print(os.getcwd())
     files = glob(os.path.join(directory, "*.wav"))
     fnames = [f.split('/')[3].split('.')[0] for f in files]
     # extract ids from filename
