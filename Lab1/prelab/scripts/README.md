@@ -1,8 +1,8 @@
 This folder contains all scripts used for pre-lab1:
 
--- main.py:     steps2-8 implementations
--- models.py:   RNN, LSTM, GRU implementations
--- training.py: training function for torch models
+-- main.py:     steps2-8 implementations__
+-- models.py:   RNN, LSTM, GRU implementations__
+-- training.py: training function for torch models__
 -- utils.py:    useful function (MFCCs/MFCSc extraction,plotting,data modification etc)
 
 Path for digits .wav files: '../pr_lab1_2020-21_data/digits', if scripts are executed from /scipts folder.
