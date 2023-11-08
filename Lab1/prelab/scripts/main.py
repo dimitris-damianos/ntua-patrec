@@ -1,4 +1,4 @@
-from utils import data_parser,extract_mfcc, extract_mfsc,plot_feats,legend_without_duplicate_labels,create_dataset,split_data
+from utils import data_parser,extract_mfcc, extract_mfsc,plot_feats,legend_without_duplicate_labels,createMfccDataset,createFeatsDataset,split_data
 from models import myRNN,myLSTM,myGRU
 from training import training
 
@@ -154,18 +154,9 @@ plt.show()
 
 ### STEP 7 ###
 print("\n### STEP 7 ###\n")
-#print(f"Extracted features number: {len(features)}, 1st feature shape:{features[0].shape}")
-'''
-Each feature is np.array of shape (num of windows) x (MFFCs = 3*13 = 39)
-'''
-dataset = create_dataset(features,digits)
+## Using MFCC features:
+dataset = createMfccDataset(features,digits)
 x_train, y_train, x_test, y_test = split_data(dataset)
-
-'''
-print(f'Percentages: train:{len(x_train)/len(dataset)}, test:{len(x_test)/len(dataset)}')
-print(f'Data shape:{np.shape(x_test)}')
-print(f'Labels shape:{np.shape(y_test)}')
-'''
 
 #### Model training ####
 print('Training classifiers using MFCCs and their deltas.')
@@ -205,6 +196,54 @@ knn_acc = accuracy_score(y_test, knn_predictions)
 decTree_acc = accuracy_score(y_test, decTree_predictions)
 
 print(f"Naive Bayes: {gnb_acc}\nMLP: {mlp_acc} \nK-NN: {knn_acc} \nDecision Tree: {decTree_acc}")
+
+### Testing using the created feature vectors:
+dataset = createFeatsDataset(feature_vectors,digits)
+x_train, y_train, x_test, y_test = split_data(dataset)
+
+'''print(f'Percentages: train:{len(x_train)/len(dataset)}, test:{len(x_test)/len(dataset)}')
+print(f'Data shape:{np.shape(x_test)}')
+print(f'Labels shape:{np.shape(y_test)}')'''
+
+#### Model training ####
+print('\nTraining classifiers using mean and variance features.')
+
+## 1st model: gaussian naive bayes model training and testing
+print('Training Naive Bayes...')
+gnb = nb.GaussianNB()
+gnb.fit(x_train,y_train)
+
+gnb_predictions = gnb.predict(x_test)
+
+## 2nd mosel: MLP
+print("Training MLP...")
+mlp_model = mlp(random_state=1, max_iter=1000)
+mlp_model.fit(x_train, y_train)
+mlp_predictions = mlp_model.predict(x_test)
+
+## 3rd model: k-nn
+print("Training k-nn...")
+knn_model = knn(n_neighbors=13)
+knn_model.fit(x_train,y_train)
+knn_predictions = knn_model.predict(x_test)
+
+## 4th model: decision tree 
+print("Training decision tree...")
+decTree_model = dec_tree()
+decTree_model.fit(x_train, y_train)
+decTree_predictions = decTree_model.predict(x_test)
+
+### Test the quality of predictions
+
+## Check accuracy:
+print('Models accuracy:')
+gnb_acc = accuracy_score(y_test, gnb_predictions)
+mlp_acc = accuracy_score(y_test, mlp_predictions)
+knn_acc = accuracy_score(y_test, knn_predictions)
+decTree_acc = accuracy_score(y_test, decTree_predictions)
+
+print(f"Naive Bayes: {gnb_acc}\nMLP: {mlp_acc} \nK-NN: {knn_acc} \nDecision Tree: {decTree_acc}")
+
 
 ### STEP 8 ###
 print("\n### STEP 8 ###\n")

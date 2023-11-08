@@ -104,7 +104,7 @@ def legend_without_duplicate_labels(figure):
     figure.legend(by_label.values(), by_label.keys(), loc='upper left')
 
 
-def create_dataset(data,labels):
+def createMfccDataset(data,labels):
     '''
     Returns list of tuples: (label, feature vector with this label)
     
@@ -117,7 +117,19 @@ def create_dataset(data,labels):
             res.append((labels[idx],normalize([vec])[0]))
     return res
     
-   
+
+def createFeatsDataset(data,labels):
+    '''
+    Returns list of tuples: (label, feature vector with this label)
+    
+    Used for feature_vectors data.
+    '''
+    res = []
+    for idx,vec in enumerate(data):
+        res.append((labels[idx],normalize([vec])[0]))
+    return res
+    
+
 def split_data(dataset,train_perc = 0.7, test_perc = 0.3):
     '''
     Input: dataset (list of tuples) , train percentage, test percentage
