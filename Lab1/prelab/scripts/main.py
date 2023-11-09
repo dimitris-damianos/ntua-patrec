@@ -279,9 +279,9 @@ target = torch.from_numpy(np.asarray(cos_samp,dtype=np.float32))
 ## Initiate and train models
 dataset = (input,target)
 
-rnn_model = myRNN(input_shape=1)
-lstm_model = myLSTM(input_shape=1)
-gru_model = myGRU(input_shape=1)
+rnn_model = myRNN(input_shape=1,hidden_size=10,output_size=1)
+lstm_model = myLSTM(input_shape=1,hidden_size=10,output_size=1)
+gru_model = myGRU(input_shape=1,hidden_size=10,output_size=1)
 
 print('RNN training:')
 loss_fn = torch.nn.MSELoss()
