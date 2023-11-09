@@ -170,7 +170,7 @@ gnb_predictions = gnb.predict(x_test)
 
 ## 2nd mosel: MLP
 print("Training MLP...")
-mlp_model = mlp(random_state=1, max_iter=1000)
+mlp_model = mlp(random_state=1, max_iter=500)
 mlp_model.fit(x_train, y_train)
 mlp_predictions = mlp_model.predict(x_test)
 
@@ -217,7 +217,7 @@ gnb_predictions = gnb.predict(x_test)
 
 ## 2nd mosel: MLP
 print("Training MLP...")
-mlp_model = mlp(random_state=1, max_iter=1000)
+mlp_model = mlp(random_state=1, max_iter=500)
 mlp_model.fit(x_train, y_train)
 mlp_predictions = mlp_model.predict(x_test)
 
@@ -277,27 +277,27 @@ target = torch.from_numpy(np.asarray(cos_samp,dtype=np.float32))
 ## Initiate and train models
 dataset = (input,target)
 
-rnn_model = myRNN(input_shape=samp_size)
-lstm_model = myLSTM(input_shape=samp_size)
-gru_model = myGRU(input_shape=samp_size)
+rnn_model = myRNN(input_shape=1)
+lstm_model = myLSTM(input_shape=1)
+gru_model = myGRU(input_shape=1)
 
 print('RNN training:')
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(params=rnn_model.parameters(), lr=1e-2)
-EPOCHS = 100
+EPOCHS = 300
 rnn_losses = training(epochs=EPOCHS,dataset=dataset,model=rnn_model,loss_fn=loss_fn,optimizer=optimizer)
 
 print('\nLSTM training:')
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(params=lstm_model.parameters(), lr=1e-2)
-EPOCHS = 100
 lstm_losses = training(epochs=EPOCHS,dataset=dataset,model=lstm_model,loss_fn=loss_fn,optimizer=optimizer)
 
 print('\nGRU training:')
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(params=gru_model.parameters(), lr=1e-2)
-EPOCHS = 100
 gru_losses = training(epochs=EPOCHS,dataset=dataset,model=gru_model,loss_fn=loss_fn,optimizer=optimizer)
+
+
 
 plt.figure()
 plt.plot(np.linspace(0,EPOCHS,EPOCHS),rnn_losses)
@@ -308,4 +308,3 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss value')
 plt.legend(['RNN', "LSTM","GRU"])
 plt.show()
-
