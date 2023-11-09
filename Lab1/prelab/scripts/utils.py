@@ -65,38 +65,37 @@ def find_indices(lista,item):
             indices.append(idx)
     return indices
 
-
-def plot_feats(kind,feats,digits,n1=5,n2=4):
-    ## find indices of the wav files for n1 and n2
-    n1_indices = find_indices(digits,n1)
-    n2_indices = find_indices(digits,n2)
+def digitsHistogram(n1,n2,mfccs,digits):
+    ### find first 2 MFCCs of n1 digit for all speakers
+    n1_indeces = find_indices(digits,n1)
+    n1_feats0 = np.array([])
+    n1_feats1 = np.array([])
+    for i in n1_indeces:
+        n1_feats0 = np.concatenate((n1_feats0,mfccs[i][:,0]),axis=0)
+        n1_feats1 = np.concatenate((n1_feats1,mfccs[i][:,1]),axis=0)
     
-    ## find the MFFCs feature vectors for the selected coefficients
-    n1_feat0 = []
-    n1_feat1 = []
-    for i in n1_indices:
-        n1_feat0.append(feats[i][:][0])
-        n1_feat1.append(feats[i][:][1])
-        
-    n2_feat0 = []
-    n2_feat1 = []
-    for i in n2_indices:
-        n2_feat0.append(feats[i][:][0])
-        n2_feat1.append(feats[i][:][1])
-        
-    plt.hist(np.array(n1_feat0))
-    plt.title(f"Hist of first {kind} for {n1}")
+    ### find first 2 MFCCs of n2 digit for all speakers
+    n2_indeces = find_indices(digits,n2)
+    n2_feats0 = np.array([])
+    n2_feats1 = np.array([])
+    for i in n2_indeces:
+        n2_feats0 = np.concatenate((n2_feats0,mfccs[i][:,0]),axis=0)
+        n2_feats1 = np.concatenate((n2_feats1,mfccs[i][:,1]),axis=0)
+    
+    plt.hist(n1_feats0)
+    plt.title(f'Histogram of 1st coeff for digit {n1}')
     plt.show()
-    plt.hist(np.array(n1_feat1))
-    plt.title(f"Hist of second {kind} for {n1}")
+    plt.hist(n1_feats1)
+    plt.title(f'Histogram of 2nd coeff for digit {n1}')
     plt.show()
-    plt.hist(np.array(n2_feat0))
-    plt.title(f"Hist of first {kind} for {n2}")
+    plt.hist(n2_feats0)
+    plt.title(f'Histogram of 1st coeff for digit {n2}')
     plt.show()
-    plt.hist(np.array(n2_feat1))
-    plt.title(f"Hist of second {kind} for {n2}")
+    plt.hist(n2_feats1)
+    plt.title(f'Histogram of 2nd coeff for digit {n2}')
     plt.show()
-
+    
+    print(n1_feats1.shape)
 
 def legend_without_duplicate_labels(figure):
     handles, labels = plt.gca().get_legend_handles_labels()

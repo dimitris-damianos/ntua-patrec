@@ -13,3 +13,5 @@ This folder contains all scripts used for pre-lab1:
 Path for digits .wav files: '../pr_lab1_2020-21_data/digits', if scripts are executed from ./scipts folder.
 
 For any questions, contact me: d.damianos556@gmail.com
+
+Contributors: Aravanis Tilemahos 03119024, Damianos Dimitrios 03119825

@@ -1,4 +1,4 @@
-from utils import data_parser,extract_mfcc, extract_mfsc,plot_feats,legend_without_duplicate_labels,createMfccDataset,createFeatsDataset,split_data
+from utils import data_parser,extract_mfcc, extract_mfsc,digitsHistogram,legend_without_duplicate_labels,createMfccDataset,createFeatsDataset,split_data
 from models import myRNN,myLSTM,myGRU
 from training import training
 
@@ -40,7 +40,9 @@ mfccs, deltas, ddeltas = extract_mfcc(waves)
 digits = [ston[d] for d in digits]
 
 mfscs = extract_mfsc(waves)
-plot_feats('MFCC',mfccs,digits,n1,n2)
+
+## plt histograms of selected digits
+digitsHistogram(n1,n2,mfccs,digits)
 
 # Find two transcriptions for n1
 
