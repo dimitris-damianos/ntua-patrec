@@ -11,7 +11,7 @@ from tqdm import tqdm
 def parse_free_digits(directory):
     # Parse relevant dataset info
     files = glob(os.path.join(directory, "*.wav"))
-    fnames = [f.split("/")[1].split(".")[0].split("_") for f in files]
+    fnames = [f.split("/")[2].split(".")[0].split("_") for f in files]
     ids = [f[2] for f in fnames]
     y = [int(f[0]) for f in fnames]
     speakers = [f[1] for f in fnames]
@@ -97,15 +97,21 @@ def parser(directory, n_mfcc=6):
 if __name__ == "__main__":
     import sys
 
-    X_train, X_test, y_train, y_test, spk_train, spk_test = parser(sys.argv[1])
-
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train)
-    print("If using all data to calculate normalization statistics")
+    X_train, X_test, Y_train, Y_test, spk_train, spk_test = parser(sys.argv[1])
+    
+    # By default stratified
+    X_train, X_dev, Y_train, Y_dev = train_test_split(X_train, Y_train, test_size=0.2)
+    
+    print("using all data to calculate normalization statistics")
     scale_fn = make_scale_fn(X_train + X_dev + X_test)
-    print("If using X_train + X_dev to calculate normalization statistics")
-    scale_fn = make_scale_fn(X_train + X_dev)
-    print("If using X_train to calculate normalization statistics")
-    scale_fn = make_scale_fn(X_train)
+ 
     X_train = scale_fn(X_train)
     X_dev = scale_fn(X_dev)
     X_test = scale_fn(X_test)
+    
+    print(f"\nSize of first sample {X_train[0].shape}\n")
+
+    print(f"Test size {len(Y_test)}")
+    print(f"Dev size {len(Y_dev)}")
+    print(f"Train size {len(Y_train)}")
+    
