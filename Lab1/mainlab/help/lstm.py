@@ -199,7 +199,7 @@ class BasicLSTM(nn.Module):
 
 
 def create_dataloaders(batch_size):
-    X, X_test, y, y_test, spk, spk_test = parser("./recordings", n_mfcc=13)
+    X, X_test, y, y_test, spk, spk_test = parser("../recordings", n_mfcc=13)
 
     X_train, X_val, y_train, y_val, spk_train, spk_val = train_test_split(
         X, y, spk, test_size=0.2, stratify=y
