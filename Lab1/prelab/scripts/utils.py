@@ -4,7 +4,7 @@ import librosa
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import StandardScaler
 import random
 
 def data_parser(directory):
@@ -111,18 +111,11 @@ def createMfccDataset(data,labels):
     THE IDEA: each vector of each MFCC table is a feature vector that belongs to a certain class
     '''
     res = []
-    for idx,table in enumerate(data):
-        for vec in table:
-            res.append((labels[idx],normalize([vec])[0]))
+    for idx,vec in enumerate(data):
+            res.append((labels[idx],vec))
     return res
     
-
 def createFeatsDataset(data,labels):
-    '''
-    Returns list of tuples: (label, feature vector with this label)
-    
-    Used for feature_vectors data.
-    '''
     res = []
     for idx,vec in enumerate(data):
         res.append((labels[idx],normalize([vec])[0]))
@@ -149,9 +142,8 @@ def split_data(dataset,train_perc = 0.7, test_perc = 0.3):
     y_test = [dataset[i][0] for i in range(len(dataset)-1) if i not in train_ids]
     
     return x_train, y_train, x_test, y_test
-
-
-
+    
+    
 
 
 
